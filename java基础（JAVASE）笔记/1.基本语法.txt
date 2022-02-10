@@ -1,0 +1,419 @@
+1.基础常识：
+	1.人机交互：
+		就是人和计算机的交互
+
+		1.图形化界面的方式：
+			比较的简单，快捷。比较容易上手。
+		2.通过命令的方式。cmd的命令。
+			在一个控制台上（黑窗口），通过命令来控制电脑
+			打开控制台：
+				1.点击window->点击运行->输入cmd->点击确定
+				2.window+r->输入cmd->回车键即可
+
+				命令：
+					切换盘符：盘符:
+					列出当前目录中的文件和文件夹  dir 
+					建立文件夹   md 文件夹名
+					删除文件夹   rd 文件夹名
+					改变目录     cd 路径   
+					返回上一级目录  cd..
+					返回根路径     cd /
+					退出控制台  exit
+					
+					创建文件    echo 内容>文件
+					删除文件    del 文件名 ，在文件名中可以使用*号。*号是通配符
+								如： del a.txt,   del *.txt ,del *.*	
+				在cmd窗口使用的方便的方式:
+					1.使用tab键可以补全
+					2.可以使用上下方向键找到以前打过的命令
+				
+
+2.Java语言
+	什么是Java?
+	Java就是一门编程语言(计算机语言)：就是人和计算机交流的语言。
+	编程语言： C,C++,JAVA,PHP,JAVASCRIPT.....
+
+3.JAVA体系：
+	JAVASE:
+		桌面级应用开发。 比如：开发记事本，wps....
+	JAVAEE:
+		企业级应用开发.  比如:淘宝，京东，网上银行....
+	JAVAME:
+		适用于终端，微型设备的应用开发。	
+		
+4.环境搭建：
+	1.JDK
+		java开发工具包	-> 给Java开发人员使用。
+	2.JRE  
+		java运行环境  -> 给测试人员使用。
+		JRE的内部有一个Java虚拟机（Java Virtual Machine，JVM），Java虚拟机有自己寄存器，内存等。
+		
+
+	3.JDK是包含JRE.只需要安装JDK即可
+
+	java1.0   java1.1  java1.2   java1.5 (java5)  java6  java7  java8  java14
+
+	
+	4.安装JDK:
+		傻瓜式安装，只需要下一步即可。
+		注意：路径要求不要有特殊字符和中文。路径:D:\Program Files\Java\jdk1.8.0_181\
+
+	5.验证jdk是否安装成功
+		1.在控制台上
+		2.进入到jdk的安装目录（带bin的目录的目录）,进入bin目录中
+		3.输入java和javac。
+
+	6.配置环境变量：
+		在系统变量中，有个path变量
+		当在控制台中输入命令的时候，会先在当前目录中查找是否有该命令，如果没有在path变量中找是否有该命令。
+		path 的值 %SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\
+ 		
+
+		配置步骤：
+		计算机右键->属性->高级系统设置->点击高级->环境变量->找到系统变量path
+		1.把bin的目录配置到path中即可。  path 的值 D:\Java\jdk1.8.0_181\bin;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\		
+		2.配置JAVA_HOME变量，值为jdk的安装目录
+			JAVA_HOME   值:D:\Program Files\Java\jdk1.8.0_181
+
+			path 的值 D:\Program Files\Java\jdk1.8.0_181\bin;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\	
+5.体验java的第一个程序(HelloWorld)
+	1.开发java程序的步骤:
+		1.建立以扩展名（后缀名）为.java的源文件，在文件中编写java代码
+		2.使用javac命令对.java文件进行编译，会生成.class文件
+		3.使用java命令运行.class文件
+
+
+	2.HelloWorld程序如下:
+		class HelloWorld{
+			public static void main(String[] args){
+				System.out.println("helloworld!!!!");
+			}
+		}
+
+		1.java中严格区分大小写。
+		2.程序中的括号都是成对出现的。
+		3.想要程序能运行，必须要有main方法（主入口方法）。其格式是固定的 public static void main(String[] args){   }
+			当运行程序的时候，会执行主方法{  }中的代码。
+		4.java中每条语句都;结尾
+		5.System.out.println("helloWorld");这是一个输出语句，会向控制台输出打印内容
+		6.System.out.println("")和System.out.print("")都是输出语句
+			带ln:输出内容后有换行作用。
+			不带ln:输出内容后没有换行作用。
+		7.在java源文件中可以写多个class
+		8.可以使用public修饰类，要求类名必须与文件名一致。
+6.注释：
+	作用：就是解释说明的作用。
+
+	单行注释：  //注释内容
+	多行注释：  /*   注释内容   */          多行注释不能嵌套使用
+	文档注释:   /**     注释内容    */      文档注释不能嵌套使用
+
+7.使用IDE
+	IDE:集成开发环境.
+	安装eclipse,解压即可。
+	2.建立工程，编写代码
+		1.点击右上角，点击java
+		2.在左面的空白处，右键->new->java project->输入名字，确定即可
+		3.选中src右键->new->package->输入包名即可.
+		4.选中包名右键->new->class->输入名字即可
+	3.改变字体大小:
+		点击window->点击preferences->搜索font->打开basic->找到text font->双击即可.
+=================================================================================	
+基本语法
+1.关键字
+	 就是被java语言赋予了特殊的含义，用做专门用途的字符串（单词）
+	 关键字的特点都是小写的。如：class,public,void,static,if,for,int,byte....
+2.保留字
+	就是没有被java语言赋予特殊的含义，保留起来，以后可能会成为关键字。如:goto...
+3.标识符
+	凡是可以起名字的地方都是标识符
+	命名规则：
+		由26个英文字母大小写，数字：0-9 ，_或 $ 组成
+		数字不可以开头。
+		不可以使用关键字和保留字，但能包含关键字和保留字。
+		Java中严格区分大小写，长度无限制。
+		标识符不能包含空格
+	命名规范：
+		Java中的名称命名规范：
+			包名：多单词组成时所有字母都小写：xxxyyyzzz
+			类名接口名：多单词组成时，所有单词的首字母大写：XxxYyyZzz
+			变量名和方法名：多单词组成时，第一个单词首字母小写，第二个单词开始每个单词首字母大写：xxxYyyZzz
+			常量名：所有字母都大写。多单词时每个单词用下划线连接：XXX_YYY_ZZZ
+4.变量
+	内存中的一个存储区域
+	该区域有自己的名称（变量名）和类型（数据类型）
+	Java中每个变量必须先声明，后使用
+	该区域的数据可以在同一类型范围内不断变化
+		//定义变量的格式 ：  数据类型  变量名 = 初始化值;
+			如：int age = 10;
+		//可以通过变量的名字，访问变量的值
+			如：System.out.println(age);
+		//变量的值可以在同一类型范围内不断变化
+			如：age = 5;
+	变量的作用域(作用范围)
+		一对{ }之间有效
+		如：
+		{
+			int i = 10;
+			System.out.println(i);
+		}
+		
+		以下不能访问
+		{
+			int i = 10;	
+		}
+		System.out.println(i);
+5.数据类型
+	 1.基本数据类型
+	 	整数类型:byte,short,int,long
+	 		  如:
+	 		  //byte类型的取值范围-128~127
+	 		  byte b = 12;  
+	 		  //long的值后面需要加l或L,建议使用L
+	 		  long lo = 12L;
+	 	浮点类型(带小数点的):float,double
+	 		如：
+	 		//float值后需要加f或F
+	 		float f = 12.3F;
+	 		double d = 12.3;
+	 	字符类型:char
+	 		//值是单个字符，需要单引号括起来
+	 		char c = 'a';
+	 		//也可以使用转义字符
+	 		char c = '\n';   // \n:换行     \t:制表符
+	 	boolean类型:取值要么是true,那么是false
+	 		如：
+	 		boolean b = true;
+	 2.引用数据类型
+	 	类 （class）,接口(interface),数组([])
+	 	注意：String字符串是属于类的，是引用数据类型
+6.类型转换
+	1.自动类型转换
+		就是容量小的数据类型可以直接给容量大的数据类型
+			char->int->long->float->double
+			byte->short->int->long->float->double
+			
+		当多种数据类型运算的时候，系统首先自动将所有数据转换成容量最大的那种数据类型，然后再进行计算。
+			如：
+			double d = 1 + 1L + 12.3;
+			注意：当byte，short， char相互计算的时候，它们会先把自己转换为int类型
+				如：
+					byte b1 = 12;
+					byte b2 = 12;
+					int b3 = b1+b2;
+					
+					byte a = 1;
+					short b = 2;
+					char c = 'a';
+					int i = a + b + c;
+			当和字符串String相(+)的时候，会起连接的作用，结果还是字符串
+				如：  System.out.println("hello"+12);  //结果 "hello12"
+				
+	2.强制类型转换
+		 就是自动类型转换的逆过程。就是把容量大的数据类型给容量小的数据类型,需要使用强制转换符"()"
+			 如：
+			 	long lo = 12L;
+			 	int i = (int)lo;
+		注意：可能会造成精度损失
+			如：
+				double d = 11.12;
+				int i = (int)d; //11 	
+		字符串不能直接转换为基本类型
+		boolean类型不可以转换为其它的数据类型
+7.运算符
+	1.算术运算符
+		+,-,*,/,%,++,--
+		/:除，2个整数相除，结果还是整数
+		%：取模(取余数)
+			如 5 % 2,就是5除以2的余数
+		++:自增，在原来的值基础上+1
+			前自增:++i
+				先自增，再使用这个值
+			后自增:i++
+				先使用这个值，再自增
+		--:自减，在原来的基础上-1
+			用法与自增一致
+		注意：+遇到String就起连接的作用，结果还是String， 
+			如："hel"+"lo":结果是"hello"
+	2.赋值运算符
+		=,+=,-=,*=,/=,%=
+		如：
+		int i = 12;//把12赋值为变量i
+		i+=2; //相当于 i=i+2;
+	3.关系运算符(比较运算符)
+		 ==(等于)，!=(不等于),>,>=,<,<=
+		 比较运算符返回的结果都是boolean类型，要么true，要么false
+	4.逻辑运算符
+		&(与)，&&(短路与)：and
+			如果两边都为true，那么结果为true，否则为false
+		|(或)，||(短路或)：or
+			如果有一边为true，那么结果为true，否则为false
+		!(非)：not
+			如果原来为true，那么结果为false，否则为true
+		^(异或)
+			两边不一样为true，否则为false。
+			
+		&和&&的区别:
+			对于&,前面为false,还会判断右边的，而&&不会判断右边的
+		|和||的区别:
+			对于|，前面是true，还会判断右边的，而||不会判断右边的 
+			
+		开发中常使用 &&, ||, !
+		注意：逻辑运算符返回的都是boolean类型
+	
+	5.三元运算符
+		格式:
+			(条件表达式)?表达式1：表达式2；
+					如果条件为true，运算后的结果是表达式1；
+					如果条件为false，运算后的结果是表达式2；
+					
+			如：
+			int i = 15;
+			int j = 10;
+			int max = i>j?i:j;
+==============================================================================
+1.流程控制
+	1.选择结构
+		就是指定执行或跳过特定的语句
+		1.if
+			格式1:
+				if(boolean类型的表达式){
+					//代码块
+				}
+				
+				当boolean类型的表达式为true的执行代码块。
+			格式2:
+				if(boolean类型的表达式){
+					//代码块1
+				}else{
+					//代码块2
+				}
+				
+				当boolean类型的表达式为true的时候执行代码块1,否则执行代码块2
+			格式3:
+				if(boolean类型的表达式1){
+					//代码块1
+				}else if(boolean类型的表达式2){
+					//代码块2
+				}else if(boolean类型的表达式3){
+					//代码块3
+				}else{
+					//代码块4
+				}
+				
+				当boolean类型的表达式1为true的的时候执行代码块1,
+				否则boolean类型的表达式2为true的的时候执行代码块2,
+				否则boolean类型的表达式3为true的的时候执行代码块3,
+				否则执行代码块4
+				
+				else if可以有多个，else是可选的。	
+				注意：判断的条件是从上往下判断，注意取值的范围。
+				
+			以上的格式，当代码块中只有一条语句，{}可以省略不写。建议加上{}
+		
+		2.switch
+			格式:
+			switch(表达式){
+				case 常量值:
+					语句;
+					break;
+				case 常量值:
+					语句;
+					break;
+				case 常量值:
+					语句;
+					break;
+				default:
+					语句;
+					break;
+			}
+			
+			switch(表达式)中表达式的返回值必须是下述几种类型之一：int, byte, char, short, 枚举, 字符串；
+			case子句可以有多个，case中的值必须是常量，且所有case子句中的值应是不同的；
+			default子句是可选的；
+			break语句用来在执行完一个case分支后使程序跳出switch语句块
+	
+	2. 循环结构
+		作用：在循环条件满足的情况下，反复执行特定的代码
+		1.for循环
+			格式:
+				for(初始化部分;循环条件部分;迭代部分){
+					//循环体部分
+				}
+				
+				for执行的流程:
+					初始化部分->循环条件部分->循环体部分->迭代部分->循环条件部分->循环体部分->迭代部分->反复执行循环条件部分,循环体部分,迭代部分,直到循环条件不满足跳出循环
+				
+				如：
+					//从1打印到5
+					for(int i = 1;i<=5;i++){
+						System.out.println(i);
+					}
+					
+				注意点:
+					在for循环中定义的变量，对当前for循环中有效
+					for(;;){}  //没有循环条件，这是无限循环
+		2.while
+				格式:
+				while(循环条件){
+					//循环体
+				}
+				执行流程:判断循环条件，满足条件执行循环体，在判断循环条件，满足执行循环体，反复执行，直到循环条件不满足跳出循环
+				
+				如：
+					//从1打印到5
+					int i = 1;
+					while(i<=5){
+						System.out.println(i);
+						i++;
+					}
+					
+					//无限循环
+					while(true){}
+		3.do..while(了解)
+				 格式：
+					 do{
+						//循环体
+					 }while(循环条件);
+					 
+				如：
+						//从1打印到5
+						int i = 1;
+						do{
+							System.out.println(i);
+							i++
+						}while(i<=5);
+					
+				while和do...while的区别:
+					执行流程不同，do...while是先执行一次循环体，而while是先判断条件
+2.break和continue关键字
+	都可以跳出当前循环语句，后面都不能直接接语句
+	区别:
+		break是跳出整个循环，而continue是跳出当前一次循环，继续下一次循环
+		break可以在循环语句和switch语句中使用，而continue只能在循环语句中使用
+		
+	在嵌套循环中可以通过给循环加标签名，之后使用break和continue跳出指定标签名的循环
+		如：
+		aa:for(int i = 1;i<=3;i++){
+			System.out.println("i-----"+i);
+			for(int j=1;j<=5;j++){
+				if(j == 3){
+					break aa;
+				}
+				System.out.println("j----------"+j);
+			}
+		}
+				
+		
+
+	
+				
+				
+				
+
+
+
+
+
+
+	

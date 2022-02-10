@@ -1,0 +1,251 @@
+1.继承:
+	作用：继承可以简化类的定义.
+	继承使用的关键字是extends
+	
+	格式
+		class 子类 extends 父类{}
+		
+		如：
+		class Person{
+			String name;
+			public void walk(){}
+		}
+		
+		class Student extends Person{}
+		
+		
+		//创建Student对象
+		Student s = new Student();
+		s.name= "tom";
+		s.walk();
+	1.子类继承父类，那么就会继承父类的属性和方法
+	2.在java中，类只支持单继承，不支持多继承
+		即：一个子类只能有一个父类，但是一个父类可以有多个子类	
+	3.子类实际上是对父类的扩展，而不是父类的子集。
+	4.父类中私有的属性和方法不能被继承。(实际上不能被直接访问)
+	
+2.访问控制：就是java可以对方法或属性，提供了不同的保护级别
+	4种权限修饰符:
+		private(私有的):它修饰的成员，只能在本类进行访问
+		default(缺省的):它修饰的成员，可以在同包下进行访问
+		protected(受保护的):它修饰的成员，可以在子类中进行访问
+		public(公共的)：它修饰的成员，可以被任意访问
+	对于类可以使用default和public修饰
+	
+3.方法的重写
+	在子类中可以覆盖父类的方法，对其改造，这就是方法的重写.
+	
+	如：
+	public class Person{
+		public void walk(){
+			System.out.println("走路")
+		}
+	}
+	
+	public class Student extends Person{
+		//方法的重写
+		@Override   //注解@Override修饰的方法，一定是重写父类的方法
+		public void walk(){
+			System.out.println("快速走路")
+		}
+	}
+	方法重写的要求：
+		1.权限修饰符不能比父类方法的权限修饰符更小
+		2.返回值类型，方法名，参数列表必须一致。
+			参数列表：就是就是参数个数或参数的类型.简单来说，就是()里面统一称为参数列表
+4.super关键字
+	super：代表着父类的引用
+	用法一:
+		super.的语法：
+			super.属性：访问父类引用的属性
+			super.方法：访问父类引用的方法
+		如：
+		class Person{
+			//返回name+age
+			public String getInfo(){
+				return name+age;
+			}
+		}
+		
+		class Student extends Person{
+			//重写方法，返回name+age+school
+			@Override
+			public String getInfo(){
+				return super.getInfo()+school;  //super.getInfo()：访问父类的getInfo()方法
+			}
+		}
+		
+	用法二：
+		注意：子类继承父类，构造方法(构造器)不能被继承,但是可以被调用.
+		super(参数,参数....):调用父类的中的构造器
+		当没有显示定义构造器的时候，默认的构造器第一行是super()
+			如：
+			class Person{
+				public Person(){
+					System.out.println("person的构造器");
+				}
+			}
+			
+			class Student extends Person{
+				//如果没有显示的定义构造器，那么系统会默认提供一个公共的，空参的构造器，样子如下：
+				/*
+					public Student(){
+						super();
+					}
+				*/
+			}
+			注意点:
+				1.在构造器中，如果没有显示写this(参数,参数..)或super(参数，参数...),那么默认为super(),就是默认会调用父类空参的构造器
+				2.super必须放在构造器中的第一行
+				3.super和this不能同时存在
+				4.如果在一个类中，有n个构造器，this最多为n-1个，至少存在1个super
+				5.当父类显示的定义构造器的时候，那么最好提供一个空参构造器。
+5.多态:
+	 同一个类型，访问同一个方法，出现不一样的效果,这个就是多态.
+	 在java中，父类的类型可以指向子类的对象（子类的对象可以赋给父类的类型）
+	 如：
+	 class Person{
+	 	public void walk(){
+	 		System.out.println("走路");
+	 	}
+	 }
+
+	class Man extends Person{
+		public void walk(){
+			System.out.println("男人走路");
+		}
+	}
+	
+	
+	class Woman extends Person{
+		public void walk(){
+			System.out.println("女人走路");
+		}
+	}
+	
+	创建对象:
+		Person p = new Person();
+		p.walk();
+		
+		
+		Person p2 = new Man();
+		p2.walk();
+		
+		
+		Person p3 = new Woman();
+		p3.walk();
+	子类对象赋值给父类引用，在使用的时候，不能直接访问子类对象特有的成员.
+	
+	如何可以访问子类特有的成员呢?
+		父类的类型可以转换为任意的子类类型,可能会出现类型转换异常java.lang.ClassCastException
+		如：
+		Person p = new Man();
+		Man man = (Man)p;
+		//Woman woman = (Woman)p;  会报错
+		
+		
+	instanceof关键字：
+		作用：判断一个对象是否是属于某个类的类型
+		格式:   a instanceof A :判断对象a是否是类A的类型,返回的结果是boolean类型
+		如：
+			Person p = new Woman();
+			System.out.println(p instanceof Person); //true
+			System.out.println(p instanceof Woman); //true
+			System.out.println(p instanceof Man); //false
+			
+		所以在转换之前，可以进行判断
+			如：
+			if(p instanceof Woman){
+				Woman woman = (Woman)p;
+				woman.walk();
+				woman.goShopping();
+			}
+			
+	对于引用数据类型的类型转换
+		1.自动类型转换(向上转型)
+			就是可以把子类类型直接赋给父类类型
+		2.强制类型转换(向下转型)
+			就是可以把父类类型转换为子类类型，需要使用强制类型转换符"()"
+			
+6.Object类
+	这个类是jdk提供的类
+	Object类是所有类的祖先类
+	当一个类没有显示继承某个类时，那么默认会继承Object类
+	如：
+	
+	class Person{}   //相当于  class Person extends Object{}
+	
+	Object类中的方法:
+		equals(Object obj):比较2个对象是否相等
+		
+			==和equals方法:
+				==：对于基本数据类型，比较的值
+					对于引用数据类型，比较的是地址值
+				
+				int i = 1;
+				int j = 1;
+				System.out.println(i == j); //true
+				String s1 = new String("hello");
+				String s2 = new String("hello");	
+				System.out.println(s1 == s2); //false
+				注意：比较字符串是否相同，使用equals方法
+				System.out.println(s1.equals(s2)); //true
+				
+				
+			注意：如果比较自己定义的对象是否相等,那么需要重写equals方法,使用eclipse生成即可.
+				如：
+				public class Person {
+					private int age;
+					private String name;
+					
+					public Person(String name,int age){
+						this.name = name;
+						this.age = age;
+					}
+					//生成的代码
+					@Override
+					public boolean equals(Object obj) {
+						if (this == obj)
+							return true;
+						if (obj == null)
+							return false;
+						if (getClass() != obj.getClass())
+							return false;
+						Person other = (Person) obj;
+						if (age != other.age)
+							return false;
+						if (name == null) {
+							if (other.name != null)
+								return false;
+						} else if (!name.equals(other.name))
+							return false;
+						return true;
+					}
+				
+				如:
+				Person p1 = new Person("tom",12);
+				Person p2 = new Person("tom",12);
+				System.out.println(p1.equals(p2));
+		toString():返回该对象的字符串，返回结果是String
+				当输出对象的时候，默认会调用对象的toString方法
+				Person p = new Person();
+				System.out.println(p);   //System.out.println(p.toString());
+				
+				在开发中，需要经常查看对象属性值是否赋值，那么就可以使用eclipse生成toString方法
+				如：
+				public class Person {
+		
+					private String name;
+					private int age;
+					private String sex;
+					//生成的代码
+					@Override
+					public String toString() {
+						return "Person [name=" + name + ", age=" + age + ", sex=" + sex + "]";
+					}
+					...
+					
+				这样，在查看属性是否已经赋值的时候，可以，直接创建对象，输出对象名即可
+				如：
+					Person p = new Person();
+					System.out.println(p);

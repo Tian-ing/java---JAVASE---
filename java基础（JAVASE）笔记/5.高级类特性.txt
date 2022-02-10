@@ -1,0 +1,220 @@
+1.static(静态的)关键字:
+	1.static 修饰的成员可以被所有对象共享。
+		如：
+			class Chinese{
+				public String name;
+				public int age;
+				public static String country;
+			}
+			
+		当创建多个Chinese的对象的时候，多个对象共享country
+		
+		类中的成员可以有属性，方法，构造器，还可以有代码块.
+		
+		class Person{
+			{
+				System.out.println("代码块");
+			}
+			public Person(){
+				System.out.println("构造器");
+			}
+		}
+		
+		当Person p = new Person();   //会先输出代码块，在输出构造器，如果创建多个对象的时候，都是这样输出的
+		
+		class Person{
+			static{
+				System.out.println("静态代码块");
+			}
+			{
+				System.out.println("代码块");
+			}
+			public Person(){
+				System.out.println("构造器");
+			}
+		
+		}
+		当创建多个对象的时候，静态代码块只执行一次，而代码块和构造器都是执行
+	2.static可以修饰属性，方法，代码块
+		static修饰的属性为静态属性
+		static修饰的方法为静态方法
+		static修饰的代码块为静态代码块
+		
+		对于static修饰的属性和方法，可以通过类名.方法进行调用
+		如：
+			class Person{
+				public static String name;
+				
+				public static void say(){}
+			}
+		
+			//访问时
+			Person.name = "tom";
+			Person.say();
+	3.在使用static需要注意：
+		非静态的成员可以访问静态的成员
+		静态的成员不可以访问非静态的成员
+		在静态的方法和静态的代码块中不能出现this和super关键字
+	4.单子(单态，单例)设计模式
+		单子设计模式:就是采取一定的方法保证在整个的软件系统中，对某个类只能存在一个对象实例,简单来说就是使一个类只产生一个对象
+		如：
+ 			class Person{
+				//2.提供静态的属性Person对象
+				private static Person p = new Person();
+			
+				//1.私有化构造器,不能在外部创建对象
+				private Person(){}
+				
+				//3. 提供公共的静态的方法，返回该对象
+				public static Person getInstance(){
+					return p;
+				}
+			}
+			
+			Person p1 = Person.getInstance();
+			Person p2 = Person.getInstance();
+			System.out.println(p1 == p2);
+2.final(最终的)关键字:
+	1.使用final修饰变量的变量为最终的变量，也就是常量，必须赋初始化值，只能赋值一次，不能更改.
+		赋值的方式  1.可以直接赋值    2.可以通过代码块赋值   3.可以通过构造器赋值
+			对于static的变量，赋值方式  1.可以直接赋值    2，通过静态代码块赋值
+	2.使用final修饰方法为最终的方法，不能被重写.
+	3.使用final修饰类为最终的类，不能被继承。
+		注意：String类不能被继承
+3.abstract关键字
+	使用abstract修饰的类为抽象类
+	使用abstract修饰的方法为抽象方法
+	
+	如：
+		abstract class Animal{   //抽象类
+			public abstract void shout();   //抽象方法
+		} 
+	
+	抽象类不能被实例化(不能创建对象)
+	抽象类是用来被继承的
+	如：
+		class Cat extends Animal{   //继承抽象类，需要实现抽象方法
+			@Override
+			public  void shout(){
+			
+			}
+		}
+		Animal cat = new Cat();
+	注意点:
+		1.含有抽象方法的类，那么这个类一定是抽象类
+		2.抽象类中不一定含有抽象方法。
+		3.不能用abstract修饰私有方法，构造方法，静态方法
+4.接口(interface)
+	作用：接口就是定义标准的。
+	定义接口使用关键字interface
+		如：
+		interface USB{}
+		
+	接口中的属性都是公共的静态的常量，默认使用public static final修饰的。
+	接口中的方法都是公共的抽象的方法，默认使用public abstract修饰的.
+		如：
+		interface USB{
+			int WIDTH=10;   //public static final int WIDTH = 10;
+			void start();   //public abstract void start();
+		}
+		
+	接口用来被类实现的，实现接口，就要实现接口中的方法
+		class Mouse implements USB{
+			@Override
+			public void start(){
+			
+			}
+		}
+	注意:
+		1.接口不是类，没有构造方法(构造器)
+		2.类实现接口，可以多实现.
+		3.如果一个类，即要继承某个类，又要实现接口，那么需要先继承后实现
+		4.(了解)，在jdk1.8中提供了->接口中可以有默认方法.  
+					如：
+					default void test(){
+					
+					}
+			
+	类和接口的相关关系:
+		1.类和类使用的继承(extends),支持单继承
+		2.类和接口使用的实现(implements)，支持多实现
+		3.接口和接口使用的(extends),支持多继承
+5.内部类:
+	就是在类中定义类，那么这个类就是内部类
+	如:
+	
+		class Outer{     //外部类
+		
+			class Inner{   //内部类
+			
+			}
+		
+		}
+		
+		1. 内部类也是类，所以有类的特征
+		2. 内部类作为外部类的成员，所有有类的成员的特征
+		如：
+			class Outer{
+				public int age=10;
+				class Inner{
+					public String name="tom";
+					public void test(){
+						System.out.println(name+age); // age:10
+					}
+				}
+			}
+			
+		3.如何为内部类创建对象呢?
+			//需要创建外部类对象
+			Outer outer = new Outer();
+			//通过外部类对象创建内部类对象
+			Inner inner = outer.new Inner();
+			System.out.println(inner.name);
+			inner.test();
+			
+		4.如果内部类和外部类的成员同名，那么内部类中访问的时候，默认是内部类的成员,如果需要访问外部类的那个成
+		    需要使用外部类.this.成员
+			class Outer{
+					public int age=10;
+					class Inner{
+						public String name="tom";
+						public int age = 20;
+						public void test(){
+							System.out.println(name+age); // age:20
+							System.out.println(name+Outer.this.age); // age:10
+						}
+					}
+				}
+				
+		5.内部类的分类:
+			1.非静态内部类
+				class Outer{
+					class Inner{
+					
+					}
+				}
+				
+				Outer outer = new Outer();
+				Inner inner = outer.new Inner();
+				
+			2.静态内部类
+				class Outer{
+					static class Inner{
+					
+					}
+				}
+				Inner inner = new Outer.Inner();
+				
+			3.匿名内部类
+				就是没有名字的内部类为匿名内部类(这里主要是指的一种写法)
+				如：
+					interface USB{
+						void test();
+					}
+					
+					USB usb = new USB(){
+						@Override
+						public void test(){}
+					};
+					usb.test();
+		

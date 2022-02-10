@@ -1,0 +1,257 @@
+1.面向对象
+	面向对象是一种编程思想
+	面向对象的编程思想力图使计算机语言中对事物的描述与现实世界中该事物的本来面目尽可能的一致。
+	1.类(class):
+		就是对一类事物的描述，是抽象的，是概念上的定义.
+	2.对象(object):
+		就是该类事物存在的个体(对象),也叫实例(instance)
+		
+	3.如何定义类呢?
+		使用关键字class定义类
+		格式:
+		class 类名{
+			
+		}
+		
+		类中可以声明属性和方法
+		class 类名{
+			//属性：就像变量那样
+			String name;
+			//方法： 权限修饰符  返回值类型 方法名(参数类型 参数名,参数类型 参数名....){}
+			public void test(){}
+		}
+		
+		如：
+		class Person{
+			//属性
+			String name;
+			int age;
+			//定义没有返回值的方法：void：代表着方法没有返回值
+			public void walk(){
+				System.out.println("走路");
+			}
+			//定义带返回值的方法,需要有返回值，返回的值的类型必须和方法声明的返回值类型一致
+			public String getSex(){
+				return "男";
+			}
+			//定义带参数的方法
+			public void say(int i,String s){
+				System.out.println(i+","+s);
+			}
+		}
+	4.创建对象使用关键字new
+		格式: 类名 对象名(变量名) = new 类名();
+			//调用属性,可以通过对象名.属性
+			//调用方法,可以通过对象名.方法()
+			如：
+			//创建对象
+			Person p = new Person();
+			//调用属性
+			p.name="tom";
+			System.out.println(p.name);
+			//调用方法
+			p.walk();
+			//调用带返回值的方法
+			String s = p.getSex();
+			//调用带参数的方法
+			p.say(12,"abc");
+			
+2.成员变量和局部变量
+	成员变量：就是在类下声明的变量(即属性)，是成员变量,作用范围为整个类
+	局部变量：就是在方法中或代码块中声明的变量，为局部变量，作用范围当前的方法和代码块
+	
+	如：
+	class Person{
+		int age;   //成员变量
+		public void test(){
+			int i = 10;   //局部变量
+		}
+		
+		//在方法中可以访问属性(成员变量)
+		public void say(){
+			System.out.println(age);
+		}
+	}
+3.创建对象相关细节
+	1.创建多个对象
+		当创建多个对象的时候，每个对象都是一个副本，相互之间不影响
+	2.匿名对象
+		就是没有对象名的对象.
+4.信息的封装和隐藏
+	使用者对类内部定义的属性(对象的成员变量)的直接操作会导致数据的错误、混乱或安全性问题
+	如：
+		class Person{
+			int age;
+		}
+		
+		Person p = new Person();
+		p.age = -10;
+	所以需要把属性封装起来
+	可以把属性使用private（私有的）进行修饰，那么属性能在类的内部进行访问.
+	如：
+		class Person{
+			private int age;
+		}
+	
+		Person p = new Person();
+		//p.age = 12;  //不能访问了
+		如何进行访问，可以通过public修饰的方法进行访问,public(公共的)修饰的方法可以被任意访问
+		class Person{
+			private int age;
+			//设置属性值
+			public void setAge(int a){
+				age=a;
+			}
+			//得到属性值
+			public int getAge(){
+				return age;
+			}	
+		}	
+5.构造方法(构造器)
+	作用：在创建的对象的时候，就可以为属性进行赋值，做些初始化工作。
+		注：类中可以有属性，方法，还可以有构造器
+	如何定义构造器(构造方法)
+		格式:   权限修饰符 类名(参数类型 参数名,参数类型 参数名..){} 
+		注意：
+			1.构造方法没有返回值，但是连void都不能写
+			2.构造方法名字必须和类名相同。
+			3.方法是通过对象名.的方式调用，而构造器是通过new的方式调用 
+			
+		如：
+		class Person{
+			//构造方法(构造器)
+			public Person(){
+				System.out.println("hello!");
+			}
+		}
+		
+		Person p = new Person();   //实际上是 new + 构造器();
+		
+	当没有显示的定义构造器，那么系统会默认提供一个公共的，空参的，没有方法体的构造器
+	如：
+		class Person{
+			//没有显示的定义构造器，默认提供的构造器的样子如下：
+			/*
+			public Person(){
+			
+			}
+			*/
+		}
+	当显示的定义的构造器，那么默认的就不再提供了
+	
+	
+6.方法:
+	方法就是封装功能代码的代码块
+	
+	定义方法
+	权限修饰符 返回值类型 方法名(参数类型 形式参数，参数类型 形式参数...){
+		//...代码
+	}
+	
+	
+	如：
+	class Person{
+		//方法
+		public int sum(int i,int j){
+			return i + j;
+		}
+	
+	}
+	1.int i,int j是形式参数，就是用于接收外部调用该方法的时候，传入的值
+	2.返回值类型，就是该方法需要返回值的类型
+	3.return + 返回值   ：是该方法需要返回的那个值,值需要和声明返回值类型一致
+	
+	Person p = new Person();
+	int sum = p.sum(1,2);  //具体传入的值，叫实参
+7.方法的重载
+	就是在同一个类中可以存在一个以上的同名方法，这就构成了方法的重载
+	
+	要求：参数的个数或类型不同即可
+	如：
+	class Person{
+		public void say(int i){}
+		public void say(int i,int j){}
+		public void say(String str){}
+	}
+	在使用的时候，可以根据传入的值区分调用的是哪个方法
+	Person p = new Person();
+	p.say(1);
+	p.say(1,2);
+	p.say("hello");
+8.构造方法的重载：
+	就是在一个类中可以存在一个以上的构造器（构造方法），那么就是构造方法的重载
+	要求：参数的个数或类型不同即可
+	
+	如：
+	class Person{
+		public Person(int i){}
+		public Person(int i,int j){}
+		public Person(String str){}
+	}
+	在使用的时候，可以通过new构造器，传入的实际参数来区别调用哪个构造器
+	Person p = new Person(1);
+	Person p2 = new Person(1,2);
+	Person p3 = new Person("hello");
+
+9.this关键字
+	this代表着当前对象
+	this的用法
+		用法1.
+			this.的语法
+			this.属性:访问当前对象的属性
+			this.方法:访问当前对象的方法
+			如：
+			class Person{
+				private int age;
+				//方法
+				public void setAge(int age){
+					//age = age;  //不能给属性赋值，相当于自己的值给自己
+					this.age = age;  //this.age:当前对象的age属性
+				}
+			}
+		用法2.
+			this(参数,参数...)的语法:调用其它的构造器(了解)
+			如：
+			class Person{
+				public Person(){
+					this(2);//调用有1个int类型的构造器
+				}
+				
+				public Person(int i){
+				
+				}
+			
+			}
+			注意点：
+				1.this必须出现在构造器中的第一行
+				2.在构造器中，this最多只能有1个
+				3.如果在类中有n个构造器，那么this出现的次数最多为n-1
+10.package&import关键字
+	package关键字：
+		声明该类在所在包。通常出现在java源文件中的第一行.
+		如：
+		package aaa.bbb.ccc
+		class Person{
+		
+		}
+		该Person类在aaa.bbb.ccc的包中
+		aaa:是顶层包
+		aaa.bbb:是aaa的子包
+		aaa.bbb.ccc:是aaa.bbb的子包
+		实际对应存在的物理位置是aaa文件中的bbb文件中的ccc文件中的类Person	
+		
+	import关键字:
+		在使用类的时候，需要进行导包
+		如:
+			package aaa.bbb.ccc
+			public class Student{}
+		那么在使用时，需要进行导入
+		如：
+			import aaa.bbb.ccc.Student;
+			Student s = new Student();
+		注意点：
+			1.如果是同包下的类，可以直接使用，不需要导包
+			2.在使用系统提供的类，java.lang包下的类可以不导入.
+			3.在使用的时候，可以import aaa.bbb.ccc.*  ：意味着导入aaa.bbb.ccc包中的所有类,但是不建议这样用
+			
+			

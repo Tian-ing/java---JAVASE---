@@ -1,0 +1,173 @@
+1.多线程概念
+	1.程序
+		是对数据描述与操作的代码的集合，是应用程序执行的脚本
+	2.进程
+		程序是静态的，进程是动态的。进程就是标识着程序从启动，运行到结束的过程
+	3.多任务
+		在一个系统中可以同时运行多个程序，即有多个独立运行的任务，每个任务对应一个进程。
+	4.线程:
+		线程是比进程的更小执行单位，是一个独立的执行流。
+	5.多线程:就是程序中有多个线程 ，就是多线程
+2.线程的创建
+	注意：每个Java程序启动后，虚拟机将自动创建一个主线程
+	方式1:
+		继承Thread,重写run方法(run方法：线程体的方法)
+		创建线程对象，调用start方法，启动线程
+		如：
+		class MyThread extends Thread{
+			@Override
+			public void run(){
+				//线程体
+				for(int i = 1;i<=100;i++){
+					//Thread.currentThread().getName():获取当前线程的名字
+					System.out.println(Thread.currentThread().getName()+":"+i);
+				}
+			}
+		}
+		
+		当调用start方法的时候，启动线程，会执行线程体的代码.(调用的是start方法而不是run方法)
+		MyThread t = new MyThread();//创建线程对象
+		t.setName("线程一");//修改线程的名字
+		t.start();//开启线程
+	方式2：
+		实现Runnable接口，实现run方法
+			如：
+			class MyRun implements Runnable{
+				@Override
+				public void run(){
+					//线程体
+					for(int i = 1;i<=100;i++){
+						//Thread.currentThread().getName():获取当前线程的名字
+						System.out.println(Thread.currentThread().getName()+":"+i);
+					}
+				}
+			} 
+		//1.创建Runable接口对象
+		Runable myRun = new MyRun();
+		//2.创建Thread对象
+		Thread t = new Thread(myRun);
+		//3.开启线程
+		t.start();
+		
+	区别:
+		1.如果使用继承Thread类这样的方式，当一个类继承了其他的某个类，就不能在继承Thread类,而
+		    实现Runnable接口的方式，没有这样的问题.
+		2.实现Runnable接口的方式更适合共享资源 （共享数据）
+		3.建议使用实现Runnable接口的方式,创建线程类
+3.线程的生命周期:
+	就是线程的产生，运行到死亡的过程。而且有不同的状态
+	1.新建状态
+		当程序创建线程对象(new),为新建状态
+	2.可执行状态
+		当调用线程对象start方法，那么就进入可执行状态
+	3.运行状态(执行状态):
+		当CPU分配给该线程控制权(当前线程抢占到cpu的执行权)，那么为执行状态(运行状态)
+		当调用yield方法，会进入可执行状态
+	4.阻塞状态:
+		当程序遇到sleep,join,IO操作，进入阻塞状态，当休眠超时，join执行完毕，io执行完毕，会回到可执行状态
+	5.死亡状态:
+		当线程执行完毕，或终止，就是死亡状态
+		
+4.线程的相关方法:
+	currentThread() :这个线程类的静态方法，获取当前的线程
+	getName() :获取线程的名字
+	setName(String name) :设置线程的名字
+	sleep(long millis) :使线程休眠的时间(单位:毫秒)
+	join():等待该线程终止。
+	yield():暂时让出当前一次cpu控制权(了解)
+	interrupt() :中断线程(了解 )
+	isAlive() ：测试线程是否是活动状态
+		多次启动一个线程是非法的。特别是当线程已经结束执行后，不能再重新启动
+	
+5.线程调度
+	就是按照特定机制为线程分配 CPU 时间片段的行为
+	Java程序运行时，由 Java 虚拟机负责线程的调度
+	Java采用的抢占式调度模型：
+		选择优先级相对较高的线程执行，如果所有线程的优先级相同，则随机选择一个线程执行.
+6.线程的优先级(了解)
+	Thread类中含有以下3个静态常量:
+		MAX_PRIORITY :最高优先级
+		MIN_PRIORITY :最低优先级
+		NORM_PRIORITY :默认优先级
+
+	getPriority() :获取线程的优先级
+	setPriority(int newPriority):设置线程优先级 
+	线程当没有设置优先级的时候，就是默认优先级(NORM_PRIORITY)
+	如：
+		Thread t = new Thread();
+		//设置优先级
+		t.setPriority(Thread.MAX_PRIORITY);
+		//获取优先级
+		int i = t.getPriority();
+	
+7.共享资源:
+	共享资源(共享数据)：就是多个线程操作同一个资源(数据).
+	当多个线程操作共享资源的时候，可能会出现线程安全问题.
+8.线程安全问题:
+	多个线程操作共享资源，可能一个线程在处理的共享资源的时候，其他的线程可能会参与进来，
+	那么就是导致线程安全问题。
+	
+	解决线程安全问题:
+		思路:就是一个线程在处理共享资源的时候，不让其他线程来操作这个共享资源.
+		方式1:
+			使用同步代码块
+			格式:
+				synchronized(对象锁){   //对象锁:多个线程必须使用的是一个锁(对象)
+					...操作共享数据的代码
+				}
+		方式2:
+			使用同步方法
+				使用synchronized修饰的方法为同步方法
+				格式:
+				public synchronized void printNum(){  //当一个线程执行同步方法的这个方法，其他线程不能参与
+			
+				}
+9.死锁:
+	如：
+		new Thread(){
+				@Override
+				public void run() {
+					synchronized(obj1){
+						System.out.println("A");
+						synchronized (obj2) {
+							System.out.println("B");
+						}
+					}
+				}
+			}.start();
+		
+		
+		new Thread(){
+			@Override
+			public void run() {
+				synchronized(obj2){
+					System.out.println("C");
+					synchronized (obj1) {
+						System.out.println("D");
+					}
+				}
+			}
+		}.start();
+		
+	线程相互占用对方所需要的对象锁，而不相互释放，导致死锁现象。需要避免。
+10.线程间通信:
+	wait() :当前线程等待,释放锁
+	notify() :唤醒其他的单个等待线程
+	notifyAll() :唤醒其他的所有等待线程
+	以上方法都在同步中使用
+11.线程池:
+	可以维护一定数量的线程，线程可以重用。
+	Executors类:
+		静态的方法：newFixedThreadPool(int nThreads) ： 创建一个可重用固定线程数的线程池,返回值类型ExecutorService
+	ExecutorService接口
+		 方法:
+		  			submit(Runnable task) :提交任务
+		  			shutdown() 关闭
+
+	
+	
+	
+	
+	
+
+	

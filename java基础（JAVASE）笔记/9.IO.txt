@@ -1,0 +1,209 @@
+1.IO概述：
+	就是输入输出
+	 	输入(input):就是把外部存储设备数据读到程序中(内存)
+	    输出(output):就是把程序中(内存)的数据写到外部的存储设备上.
+2.File类：
+	代表着与平台无关的文件和文件夹(目录)
+	  	方法:
+	  		getName() :得到文件名字,返回值类型String
+	  		getPath() :得到路径,返回值类型String
+	  		getAbsolutePath() :得到绝对路径,返回值类型String
+	 		getParent() :得到父级路径
+	  		renameTo(File dest) :重命名文件(除了命名还有移动的功能)
+	  		exists():判断文件或目录是否存在
+	  		canRead() :判断是否是可读
+	  		canWrite():判断是否是可写的
+	  		isFile():判断是否是文件
+	  		isDirectory()  :判断是否是目录
+	  		lastModified() :获取最后一次的修改时间
+	  		length() :文件的长度(获取文件的字节大小)
+	  		createNewFile():创建文件
+	  		delete():删除文件或目录
+	  		mkdir():创建目录
+	  		list():获取目录下的文件和目录的名，返回String[]
+	  		listFiles():获取目录下的文件和目录组成的File数组    
+	         
+3.递归程序设计:
+	就是程序按照一定的逻辑还调用方法本身->递归调用,简单理解就是自己调用自己
+	在递归调用的时候，应该有个临界点(有出口)，否则会无限递归调用，导致程序耗尽内存资源
+	
+	如：
+		求1-num的和
+		public int sum(int num){
+			if(num == 1){
+				return 1;
+			}
+			return num + sum(num-1);
+		}
+		
+4.IO流
+	1.字节输入流:
+		InputStream:
+			是字节输入流的抽象基类.
+			方法:
+				read():一个一个字节的读取，返回读取的内容(int值)，如果返回是-1，代表着到达了文件的末尾
+				*read(byte []):每次都读取byte数组那么多，把读取的内容放入到该数组中，返回值为读取的真实的长度，如果返回-1，代表着到达了文件的末尾
+				read(byte[] b, int off, int len) :把内容读取到数组的部分中.
+				*close() :关闭流资源.
+			
+			FileInputStream:是InputStream的子类，是文件字节输入流
+	2.字节输出流
+		OutputStream:
+			是字节输出流的抽象基类.
+			方法:
+				write(int b) :一个一个字节的写数据
+				write(byte[] b) :每次写byte数组那么多的数据
+				write(byte[] b, int off, int len) :写byte数组，off:起始位置 ,len:长度
+				close() :关闭流资源.
+			FileOutputStream:是OutputStream的子类，是文件字节输出流
+	3.案例:对任意文件进行复制（代码如下）
+		//创建输入流和输出流
+		InputStream in = new FileInputStream("d:/a.jpg");
+		OutputStream out= new FileOutputStream("d:/aa.jpg");
+		//一遍读取，一遍写出
+		byte[] buffer = new byte[1024];
+		int len = 0;
+		while((len = in.read(buffer)) != -1){
+			out.write(buffer,0,len);
+		}
+		//关闭资源
+		out.close();
+		in.close();
+		
+	4.字符输入流:
+		Reader:是字符输入流的抽象基类
+			方法:
+				read() :每次读取一个字符
+				*read(char[] cbuf) :每次读取char数组那么多的字符
+				read(char[] cbuf, int off, int len) :读取字符放入到char数组的部分中
+				*close();
+			
+			FileReader:文件字符输入流
+			
+	5.字符输出流:
+		Writer:是字符输出流的抽象基类
+			方法:
+				write(int c) :写单个字符串
+				write(char[] cbuf) :写char数组那么多字符
+				write(char[] cbuf, int off, int len): 写char数组.off:起始位置  len:长度
+				write(String str) :写出字符串
+				close();
+			FileWriter:文件字符输出流	
+			
+	6.案例->对文本文件的进行复制
+		//1.创建字符输入输出流
+		Reader r = new FileReader("test.txt");
+		Writer w = new FileWriter("test2.txt");
+		//2.一边读取，一边写出
+		char[] buffer = new char[10];
+		int len = 0;
+		while((len = r.read(buffer)) != -1){
+			w.write(buffer, 0, len);
+		}
+		//3.关闭资源
+		w.close();
+		r.close();	
+		
+		
+	小结：
+		按照流向划分：可以分为输入流和输出流
+					输入流:InputStream,FileInputStream,Reader,FileReader
+					输出流:OutputStream,FileOutputStream,Writer,FileWriter
+					
+		按照流的单位划分:可以分为字节流和字符流
+					字节流:就是以字节为单位(byte),字节流很强大，可以处理任何文件。
+							InputStream,OutputStream,FileInputStream,FileOutputStream
+					字符流:就是以字符为单位(char),比如文本文件.如果处理文本文件是，实际上使用字符流更加方便，效率会高些。
+							Reader,FileReader,Writer,FileWriter
+		按照流的功能划分:
+					可以分为节点流和处理流
+	
+	7.缓冲流:
+		BufferedInputStream:字节输入流缓冲流
+		BufferedOutputStream:字节输出流缓冲流
+		BufferedReader:字符输入流缓冲流
+				方法：readLine():读取一行
+				
+		BufferedWriter:字符输出流缓冲流
+				方法: newLine():换行
+				
+	8.转换流:
+		InputStreamReader：可以把字节输入流转换为字符输入流
+			如： InputStream in = new FileInputStream("test.txt");
+				Reader r = new InputStreamReader(in);
+		
+		OutputStreamWriter:可以把字节输出流转换为字符输出流
+			如：
+			  OutputStream out = new FileOutputStream("test.txt");
+			  Writer w = new OutputStreamWriter(out);
+			  
+	9.对象的序列化和反序列化
+		对象的序列化:就是把对象保存在磁盘上，或者可以在网络中进行传输.
+		对象的反序列化:就是把对象从磁盘上，或网络中读取出来。
+		对象流:
+			1.ObjectOutputStream:对象输出流
+					方法:writeObject(Object obj)
+			2.ObjectInputStream:对象输入流
+					方法:readObject()
+			
+		注意点：
+			1.想要把对象序列化，那么该对象的类需要实现接口Serializable
+				如：//实现这个接口，那么Person类的对象才可以写到磁盘(才可以序列化)
+					class Person implements Serializable{
+						.....
+					}
+					//对象的序列化	
+					Person p = new Person();
+					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("d:/obj.txt"));
+					//把对象输出到文件中
+					oos.writeObject(p);
+					oos.close();
+					
+					//对象的反序列化
+					ObjectInputStream ois =new ObjectInputStream(new FileInputStream("d:/obj.txt"));
+					//读取文件中的对象
+					Object obj = ois.readObject();
+					ois.close();
+			2.如果一个类是可以序列化的，那么确保类中的属性也应该可以序列化的.
+			
+			序列化版本号(了解):
+				作用 ：当类改造的时候，可以升级序列化版本号，那么在读取对象的时候,可以抛出异常，版本号不一致
+	10.jar包:
+		就是把类放到一起，可以打成一个以.jar结尾的文件,这个就是jar包
+		开发人员可以把jar加入到工程中，从而可以使用jar包中的类。
+		
+		如何把jar包导入到java工程中
+			1.	选中工程，建立Folder(文件夹)，名字为lib  :右键->new->Folder
+			2.  把jar包拷贝到lib目录中
+			3.  选中jar包->右键->build path->add to build path
+			
+	11.commons-io的使用:
+		1.解压commons-io-2.7-bin.zip
+		2.找到commons-io-2.7.jar,加入到工程中
+		commons-io中的类:
+			FileUtils:
+				文件工具类
+				方法:
+					copyDirectory(File srcDir, File destDir):复制目录
+					deleteDirectory(File dir):删除目录
+					copyFile(File srcFile, File destFile):复制文件
+					deleteQuietly(File file):删除文件
+		 
+			IOUtils:
+				IO流的工具类
+				方法：
+					copy方法:复制流
+	
+				
+				
+			
+		
+		
+	
+	
+	
+	
+
+		  
+	
+				

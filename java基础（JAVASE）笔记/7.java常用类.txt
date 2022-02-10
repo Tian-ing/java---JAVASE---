@@ -1,0 +1,170 @@
+1.封装类:
+	八大基本数据类型有对应的引用类型，我们把引用类型称为封装类
+	byte  -> Byte
+	short  -> Short
+	int   -> Integer
+	long   -> Long
+	float   -> Float
+	double  -> Double
+	char   -> Character
+	boolean  -> Boolean
+	
+	以Integer为例：对应的封装类功能更加强大，因为是引用类型，可以有属性，方法....
+		Integer i = new Integer(10);
+		System.out.println(i);  //10
+		System.out.println(Integet.MAX_VALUE);
+		
+	如何把String转换为int类型
+		String str = "12";
+		int i = Integer.parseInt(str);	
+		
+	1.自动装箱
+		就是可以把基本数据类型赋值给对应的引用数据类型
+			如：
+			int i = 10;
+			Integer i2 = i;
+	
+	2.自动拆箱
+		就是可以把引用数据类型赋值给对应的基本数据类型
+			Integer i = new Integer(20);
+			int i2 = i;
+2.String类：
+		String类是用final修饰的，不能被继承。
+		创建String的方式
+			String str = "hello";
+			String str2 = new String("hello");
+			
+			注意：比较String是否相同，使用的equals方法
+		1.String是不可变的字符序列
+		
+		2.String的方法:
+			replace(CharSequence target, CharSequence replacement) :把target目标字符串替换为replacement,返回结果是String
+			equals(Object anObject) :比较String是否相同的
+			length() ：返回String的长度
+			charAt(int index) ：返回指定索引处的 char 值。
+			concat(String str) :将str连接到字符串的结尾
+			contains(CharSequence s) :是否包含指定字符串
+			startsWith(String prefix) :是否以指定的String开始
+			endsWith(String suffix) :是否以指定的String结束
+			isEmpty() :判断字符串是否为空
+			trim()： 返回字符串，除去前后空格 
+			split(String regex) :根据指定的字符串拆分，返回String[]
+			indexOf(String str) :判断指定字符串第一次出现的索引位置
+			lastIndexOf(String str) :判断指定字符串最有一次出现的索引位置
+			substring(int beginIndex) :从指定索引处截取字符串,包含起始索引
+			substring(int beginIndex, int endIndex) :包含起始索引，不包含结束索引
+3.StringBuilder类和StringBuffer类:
+	是可变的字符序列
+	方法:
+		append(xxx b): 将指定内容追加到结尾处.返回值类型还是StringBuilder
+		charAt(int index) :
+		delete(int start, int end) :
+		indexOf(String str) :
+		lastIndexOf(String str) :
+		length() :
+		reverse() :
+		toString() :回此序列中数据的字符串表示形式。
+		insert(int offset, xxx b) :将内容表插入指定的offset（位置）到序列中。
+		
+		
+	StringBuilder vs StringBuffer
+		1.都是可变的字符序列
+		2.StringBuffer是线程安全的，效率低。
+		3.StringBuilder是线程不安全，效率高。
+		
+4.Date类
+	代表日期时间的类.
+		Date date = new Date();  //代表着当前的时间
+		System.out.println(date);
+	方法
+		getTime():返回时间戳(时间戳:代表一个具体时间,是一个毫秒数)，返回值类型是long类型
+		Date date = new Date();
+		System.out.println(date.getTime()); //1552014136487
+		
+	如果有一个时间戳，那么知道代表着哪个时间?
+		Date date = new Date(1552014136487L);
+		System.out.println(date);
+		
+5.DateFormat类
+	DateFormat是一个格式化日期时间的抽象类
+		方法:
+			format(Date date):可以将Date格式化为String
+			parse(String source):可以将String格式化为Date
+	子类:SimpleDateFormat
+		构造方法：
+			SimpleDateFormat(String pattern):   pattern可以用于指定格式
+			
+			
+	1.将Date格式化为String
+		Date date = new Date();
+		
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String str = df.format(date);
+		System.out.println(str);  //2019-03-08 11:52:12
+	
+	2.将String格式化为Date
+		String str = "2019-03-08 11:52:12";
+		
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = df.parse(str);
+		System.out.println(date);
+6.Calendar类:
+	这个是日历(代表着时间和日期)的抽象类
+	方法：
+		getTime() :返回一个Date的对象
+		getTimeInMillis() ：返回时间戳
+		get(int field):返回给定日历字段的值。
+			如：
+			Calendar calendar = new GregorianCalendar();
+			int year = calendar.get(Calendar.YEAR);  //获取年
+			int mouth = calendar.get(Calendar.MONTH) + 1;//获取月,0代表着第1个月，所以+1
+			int day = calendar.get(Calendar.DAY_OF_MONTH);//获取日
+			
+			int hour = calendar.get(Calendar.HOUR_OF_DAY);//获取时
+			int minute   = calendar.get(Calendar.MINUTE);//获取分
+			int second = calendar.get(Calendar.SECOND); //获取秒
+		set(int field, int value) ：
+			 将给定的日历字段设置为给定值
+		add(int field, int amount):
+			根据日历的规则，为给定的日历字段添加或减去指定的时间量
+			如：
+				根据日期算出前5的时间
+				add(Calendar.DAY_OF_MONTH, -5)。 
+		
+	子类：
+		GregorianCalendar:
+			构造方法:
+				GregorianCalendar() :当前的时间
+					如：Calendar calendar = new GregorianCalendar();
+				GregorianCalendar(int year, int month, int dayOfMonth, int hourOfDay, int minute, int second) :可以传入指定的时间
+					如：  Calendar calendar = new GregorianCalendar(2019, 5-1, 2, 12, 12, 12);
+7.Random类:
+	用于生成随机数的。
+	方法:
+		nextInt() :随机产生int 值，返回值类型为int
+		nextInt(int n) :随机产生0-n(包括0，不包括n)的值，返回值类型为int
+8.Math类：
+	Math 类包含用于执行基本数学运算的方法.
+		Math.PI :就是π,即3.1415926....
+		方法：
+		max方法：求2个数的最大值
+		min方法：求2个数的最小值
+		round方法：四舍五入
+		sqrt方法：取平方法根 
+		
+9.使用junit单元测试
+	作用：可以替代主方法，可以运行，测试时候比较方便
+	使用方式:在方法上面 加入@Test
+	如：
+		@Test
+		public void test(){
+			System.out.println("test...");
+		}
+	运行：选中方法名(双击方法名)->右键->run as->junit test即可
+	
+	注意点：
+		1.方法的权限修饰符为public
+		2.方法的返回值类型应为void
+		3.方法的参数列表应为空
+		满足以上，才可以运行
+		

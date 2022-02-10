@@ -1,0 +1,114 @@
+异常处理：
+	1.异常
+		就是在程序运行时，发生非正常的情况，这就是异常.
+	2.常见的异常
+					java.lang.ArithmeticException:算数异常
+			  		java.lang.ArrayIndexOutOfBoundsException:数组下标索引越界异常
+			  		java.lang.ClassCastException:类型转换异常
+			  		java.lang.NullPointerException:空指针异常
+					java.util.InputMismatchException:输入不匹配异常
+					
+	3.异常的体系:
+		Throwable类：是所有的异常和错误的父类.
+			子类：
+				Error：就是程序出现的严重的错误。比如内存资源耗尽...
+						如：java.lang.StackOverflowError:内存溢出错误
+						对于错误，我们程序员无能为力，无法处理.
+				
+				Exception：
+						编译时异常(检查时异常):就是在程序编译的时候，就会发生异常.(就是在写代码的时候就发生异常)
+							如：
+							java.lang.ClassNotFoundException:类没有找到异常.
+							IOException类及子类都是编译时异常
+						
+						运行时异常:就是在程序运行的时候，发生的异常
+								RuntimeException类及子类都是运行时异常.
+								
+						程序员主要是处理异常。
+						
+	4.处理异常的方式:
+			1.使用try...catch...finally
+				格式
+				try{
+					//可能出现异常的代码
+				}catch(异常的类型 变量名){
+					.....
+				}catch(异常的类型 变量名){      //catch可以有多个，用于捕获不同类型的异常
+					.....                   //可以使用父类类型的异常进行捕获异常，有多个catch的时候，那么父类的异常应该放在最后
+				}finally{    //finally的语句块一定被执行
+					.....
+				}
+				
+				通常我们如下这样写即可:
+				try{
+					...
+				}catch(Exception e){
+					....
+				}
+				异常的相关方法:
+					printStackTrace() :打印堆栈异常信息
+					getMessage() :得到异常信息，返回值String类型
+			
+			2.使用throws声明抛出异常
+				这种方式是作用在方法上的。
+				如：
+				
+				class TestException{
+					public static void main(String[] args) {
+						try{
+							test();
+						}catch(Exception e){
+							...
+						}
+					}
+				
+					//使用throws声明抛出异常
+					public static void test() throws FileNotFoundException,ClassNotFoundException{
+						InputStream in = new FileInputStream("c:/aaa.txt");
+						Class.forName("com.cxb.demo4.TestException111");
+					}
+				}
+				
+				在声明抛出异常的时候，可以声明抛出多个，使用","分割
+				在声明抛出异常的时候，也可以声明抛出这个异常的父类类型，当其他方法调用处理的时候，也应该使用那个父类类型进行处理
+				注意：当子类重写父类的方法：返回值类型，方法名，参数列表必须一致，
+					  权限修饰符不能比父类的更小，抛出的异常不能比父类的更大,运行时异常除外
+	5.人工抛出异常:
+		使用throw关键字，可以人工抛出异常
+		throw + 异常的对象
+		如：
+		throw new ArithmeticException("/ by zero");
+		这个就是我们人工手动抛出抛出异常.
+		
+		注意：throw 后面必须是异常类的对象
+		
+	6.自定义异常类:
+		通常需要继承RuntimeException,
+			提供2个构造器，一个空参构造器，调用父类的空参构造器，一个带String类型的构造器，调用父类的带String类型的构造器
+			如：
+			public class MyException extends RuntimeException{
+	
+				public MyException(){
+					super();
+				}
+				
+				public MyException(String s){
+					super(s);
+				}
+			}
+			如何使用自定义异常类呢?
+				就像使用系统提供异常类那样即可
+		
+		
+			
+			
+		
+		
+						
+								
+				
+					  
+				
+		
+			
+		
